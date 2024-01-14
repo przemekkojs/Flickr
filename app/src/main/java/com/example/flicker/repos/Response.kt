@@ -3,7 +3,6 @@ package com.example.flicker.repos;
 import com.example.flicker.model.Response;
 import retrofit2.http.GET
 
-
 interface Service {
     @GET("services/feeds/photos_public.gne?format=json&nojsoncallback=1")
     suspend fun getPhotos(): Response

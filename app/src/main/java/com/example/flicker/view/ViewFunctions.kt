@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
@@ -18,7 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
 import com.example.flicker.constants.MARGIN_MID
 import com.example.flicker.constants.PHOTO_HEIGHT
-import com.example.flicker.constants.ROUND_SIZE
 import com.example.flicker.model.Photo
 import com.example.flicker.model.Response
 import com.example.flicker.repos.FlickrResponse
@@ -46,7 +48,9 @@ fun Gallery(viewModel: FlickrViewModel) {
         if (!loading) {
             val photos = response!!.items
 
-            LazyColumn {
+            LazyVerticalGrid (
+                columns = GridCells.Fixed(count = 3)
+            ) {
                 items(photos.size) { it ->
                     ImageCard (photos[it])
                 }
@@ -57,27 +61,16 @@ fun Gallery(viewModel: FlickrViewModel) {
 
 @Composable
 fun ImageCard (photo: Photo) {
-    Card (
+    Image(
+        painter = rememberAsyncImagePainter(
+            model = photo.media.m
+        ),
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(MARGIN_MID)
-    ) {
-        Column (
-            modifier = Modifier
-                .padding(MARGIN_MID)
-        ) {
-            Image (
-                painter = rememberAsyncImagePainter(
-                    model = photo.media.source
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(PHOTO_HEIGHT)
-                    .clip(RoundedCornerShape(ROUND_SIZE)),
+            .width(PHOTO_HEIGHT)
+            .height(PHOTO_HEIGHT)
+            .padding(MARGIN_MID),
 
-                contentDescription = photo.title,
-                contentScale = ContentScale.Crop
-            )
-        }
-    }
+        contentDescription = photo.title,
+        contentScale = ContentScale.Crop
+    )
 }

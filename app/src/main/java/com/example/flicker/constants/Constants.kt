@@ -6,6 +6,5 @@ import androidx.compose.ui.unit.dp
 const val BASE: String = "https://api.flickr.com/"
 
 // Layout constants
-val MARGIN_MID = 8.dp
-val ROUND_SIZE = 4.dp
+val MARGIN_MID = 2.dp
 val PHOTO_HEIGHT = 200.dp
